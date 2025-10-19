@@ -1,0 +1,47 @@
+# FastAPI Framework
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+python-multipart==0.0.6
+
+# Pydantic for validation
+pydantic==2.5.0
+pydantic-settings==2.1.0
+email-validator==2.1.0
+
+# AWS Services (DynamoDB + Bedrock for AI)
+boto3==1.34.21
+aioboto3==12.3.0
+botocore==1.34.21  # Required for Bedrock
+
+# Authentication & Security
+python-jose[cryptography]==3.3.0
+google-auth==2.25.2
+google-auth-oauthlib==1.1.0
+google-auth-httplib2==0.2.0
+
+# Redis (optional)
+# redis==5.0.1
+
+# HTTP Client (optional)
+# httpx==0.25.2
+
+# Logging
+python-json-logger==2.0.7
+
+# Utilities
+python-dotenv==1.0.0
+
+# AWS Lambda Integration - REMOVED (using ECS deployment)
+# mangum==0.17.0
+
+# Testing (optional)
+# pytest==7.4.3
+# pytest-asyncio==0.21.1
+# pytest-cov==4.1.0
+# faker==21.0.0
+
+# Code Quality (optional)
+# black==23.12.1
+# flake8==6.1.0
+# mypy==1.7.1
+# isort==5.13.2
