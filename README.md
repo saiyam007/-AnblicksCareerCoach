@@ -356,7 +356,7 @@ artillery quick --count 100 --num 10 http://localhost:8000/health
 ### 2. 📦 Clone the Repo
 
 ```bash
-git clone https://github.com/saiyam007/-AnblicksCareerCoach/tree/main
+git clone https://github.com/saiyam007/AnblicksCareerCoach.git
 cd CareerCoachAICopilotAWSHackathon
 ```
 
