@@ -407,22 +407,181 @@ artillery quick --count 100 --num 10 http://localhost:8000/health
 
 ## 🔧 Development
 
-### Project Structure
 ```
-Backend/
-├── src/
-│   ├── main.py                 # FastAPI application entry point
-│   ├── api/
-│   │   ├── routes/            # API route handlers
-│   │   ├── services/          # Business logic services
-│   │   ├── models/            # Data models and schemas
-│   │   ├── core/              # Core utilities (DB, AI)
-│   │   └── utils/             # Helper utilities
-│   └── tests/                 # Test files
-├── Dockerfile                 # Container definition
-├── docker-compose.yml         # Local development setup
-├── requirements.txt           # Python dependencies
-└── README.md                  # This file
+## 🏗️ Project Architecture
+
+```
+├── Backend
+│   ├── examples/                    # Example docs & references
+│   ├── logs/                        # Log files
+│   ├── scripts/                     # Deployment or utility scripts
+│   ├── src/
+│   │   ├── api/
+│   │   │   ├── agents/             # AI/LLM agent integrations
+│   │   │   ├── core/               # Core app logic & configs
+│   │   │   ├── models/             # ORM / DB models
+│   │   │   ├── routes/             # FastAPI routes
+│   │   │   ├── schemas/            # Pydantic request/response schemas
+│   │   │   ├── services/           # Business logic layer
+│   │   │   ├── utils/              # Helpers, error handlers, logging
+│   │   ├── main.py                 # Application entrypoint
+│   │   └── __init__.py
+│   ├── .dockerignore
+│   ├── .gitignore
+│   ├── API_DOCUMENTATION.md
+│   ├── ASSESSMENT_API_GUIDE.md
+│   ├── DEPLOYMENT.md
+│   ├── docker-compose.yml
+│   ├── Dockerfile
+│   ├── env-template.txt
+│   └── requirements.txt
+│
+├── Frontend
+│   ├── public/
+│   │   └── assets/
+│   ├── src/
+│   │   ├── common/
+│   │   │   ├── services/           # API services
+│   │   │   ├── constant.ts
+│   │   │   ├── http.ts
+│   │   │   ├── urls.ts
+│   │   │   └── util.ts
+│   │   ├── components/
+│   │   │   ├── figma/             # UI assets or components from Figma
+│   │   │   └── ui/                # Reusable UI components
+│   │   ├── hooks/
+│   │   │   └── useLoading.tsx
+│   │   ├── styles/
+│   │   │   └── globals.css
+│   │   ├── App.tsx
+│   │   ├── index.css
+│   │   └── main.tsx
+│   ├── buildspec.yml
+│   ├── dockerfile
+│   ├── index.html
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── README.md
+│   └── vite.config.ts
+│
+├── imagedefinitions-fe.json        # Frontend image definition for deployment
+├── imagedefinitions.json           # Backend image definition for deployment
+└── project_structure.txt
+
+```
+
+
+## 🧠 Core Features
+
+### 1. 🔐 **User Journey & Stage Flow**
+
+| Stage                    | Description                                                    | Actions Available                                               |
+|---------------------------|-----------------------------------------------------------------|------------------------------------------------------------------|
+| `AUTHENTICATED`           | User just logged in                                            | Complete registration                                           |
+| `BASIC_REGISTERED`        | Basic profile created                                          | Generate questions, update registration                          |
+| `PROFILE_COMPLETED`       | Profile ready                                                  | Answer questions, regenerate questions                           |
+| `CAREER_PATHS_GENERATED`  | Career paths created                                           | Select career path                                              |
+| `CAREER_PATH_SELECTED`    | Career path stored in DB                                       | View detailed roadmap                                           |
+| `ROADMAP_GENERATED`       | Full roadmap generated                                        | Start journey, view roadmap                                     |
+| `ROADMAP_ACTIVE`          | User actively learning                                       | Track progress, pause journey                                   |
+| `JOURNEY_PAUSED`          | User paused their journey                                    | Resume journey                                                  |
+| `JOURNEY_COMPLETED`       | Journey done                                                 | View certificate, start new journey                             |
+
+---
+
+### 2. 🧭 **AI Workflow**
+
+```
+1. /v1/ai/profile/questions              → Generate career questions
+2. /v1/ai/profile/roadmap                → Generate 3 career paths
+3. /v1/ai/profile/selected-career-path   → Save chosen path + stage update
+4. /v1/ai/profile/detailed-roadmap       → Generate full roadmap
+```
+
+**LLM Powered Components**
+- Uses AWS Bedrock (Anthropic Claude) via Bedrock Runtime
+- Uses Bedrock Agent Runtime for detailed roadmap
+- Token optimization (lower cost, high determinism)
+- Location-aware salary estimation
+
+---
+
+## 🧰 Tech Stack
+
+| Component                | Technology                                   |
+|---------------------------|-----------------------------------------------|
+| **Backend Framework**     | [FastAPI](https://fastapi.tiangolo.com/)     |
+| **Language**              | Python 3.11+                                 |
+| **LLM Provider**          | [AWS Bedrock](https://aws.amazon.com/bedrock/) |
+| **LLM Model**             | Anthropic Claude Sonnet / Bedrock Agent     |
+| **Auth**                  | JWT + FastAPI dependencies                  |
+| **Database**              | DynamoDB / Postgres (for journey state)     |
+| **Logging**               | Custom logging via `errorHandler.py`        |
+
+---
+
+## ⚡ Getting Started
+
+### 1. 🧭 Prerequisites
+
+- Python 3.11+
+- AWS account with Bedrock access
+- Valid IAM credentials
+- DynamoDB or PostgreSQL (depending on your setup)
+
+### 2. 📦 Clone the Repo
+
+```bash
+git clone https://github.com/saiyam007/-AnblicksCareerCoach/tree/main
+cd CareerCoachAICopilotAWSHackathon
+```
+
+### 3. 🧪 Create and Activate Virtual Environment
+
+```bash
+python3 -m venv venv
+source venv/bin/activate   # Linux / Mac
+venv\Scripts\activate      # Windows
+```
+
+### 4. 📥 Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 5. 🧰 Environment Variables
+
+Create a `.env` file (based on `.env-template.txt`):
+
+```
+AWS_ACCESS_KEY_ID=your-key
+AWS_SECRET_ACCESS_KEY=your-secret
+AWS_REGION=us-east-2
+BEDROCK_MODEL_ID=anthropic.claude-3-5-sonnet-20240620-v1:0
+BEDROCK_AGENT_ID=FDZUGFEXL2
+BEDROCK_AGENT_ALIAS_ID=YE8F8TRXUI
+```
+
+---
+
+## 🧪 Running the Server
+go to  base folder 
+
+D:\CareerCoachAICopilotAWSHackathon\CareerCoachAICopilotAWSHackathon\Backend
+
+
+```bash
+uvicorn app.main:app --reload
+```
+
+➡️ The API will be available at:  
+👉 `http://127.0.0.1:8000`
+
+➡️ For Swagger: 
+👉 `http://127.0.0.1:8000/docs`
+
+
 ```
 
 ### Adding New Features
