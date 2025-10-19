@@ -386,13 +386,6 @@ BEDROCK_MODEL_ID=anthropic.claude-3-5-sonnet-20240620-v1:0
 BEDROCK_AGENT_ID=FDZUGFEXL2
 BEDROCK_AGENT_ALIAS_ID=YE8F8TRXUI
 ```
-## 🧪 Running the Server
-go to  base folder 
-
-```bash
-D:\CareerCoachAICopilotAWSHackathon\CareerCoachAICopilotAWSHackathon\Backend
-```
-
 ```bash
 uvicorn app.main:app --reload
 ```
