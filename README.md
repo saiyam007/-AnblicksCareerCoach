@@ -399,6 +399,10 @@ uvicorn app.main:app --reload
 
 ```
 
+```
+Run the table_schema_setup.py for setting up table in db
+```
+
 ### Adding New Features
 1. **Create Route**: Add endpoint in `api/routes/`
 2. **Add Service**: Implement business logic in `api/services/`
@@ -609,5 +613,4 @@ The built files will be located in the dist/ folder.
 Command Description
 npm run dev Run the app in development mode
 npm run build Build the app for production
-
 
