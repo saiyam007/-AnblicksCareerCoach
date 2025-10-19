@@ -1,0 +1,112 @@
+Let's make some healthy conversation 
+
+what is in my mind 
+
+career coach web app 
+
+---------------------------
+UX is ready 
+
+->as per the our plan i will share you the user journey what we wnat to build 
+
+Let's start with 1st screen 
+
+->Sign in with google  once user need logged into google we have it's information 
+
+after that we will give form or anything like that...
+
+First Name, Last name ,email 
+country,state 
+-We will ask what you are  means are you Working professional or Student 
+-based on that we will ask other detail just example 
+
+"type" : "Student | Professional",
+	 "primary details" : {
+		
+		 "current_info" : {
+			 "education level" : "Student | Professional",
+			 "field": "Science",
+			 "Academic Intrest " : "Computer engineering",
+			 "Preefered study destination" : "UK"
+		 },
+	 "future_info" : {
+	     "carrier goal" : "data science",
+		 "looking for": "Job search",
+		 "Language Preference" : "Computer engineering"		 
+	 }
+	 
+ "primary details" :{
+		 "type" : "Professional",
+		 "current_info" : {
+			 "Job title" : "Data engineer",
+			 "Occupation": "Software Developer",
+			 "Industry Domain" : "Computer engineering",
+			 "Experience in yers" : "5"
+			 "core_skills" : "Java,Python,FastAPi" 
+		 },
+	 "future_info" : {
+	     "carrier goal" : "data science",
+		 "looking for": "Job search",
+		 "Language Preference" : "Computer engineering"		 
+	 }
+
+
+means what your are and what you want to become or what are your goals...
+
+- after that we will process that data and based on that user information we will ask more question 
+- to know more precisice thing to make recommendation 
+- like  some recommendation 
+
+Digital Marketing Specialist
+82% Match
+Drive online growth through strategic digital marketing campaigns and data-driven optimization.
+Time to achive 
+Market demand 
+Average salary 
+Your Learning Roadmap 
+Stage 1
+Get certified in Google Ads and Analytics
+
+2
+Stage 2
+Learn SEO and content marketing
+
+3
+Stage 3
+Master social media platforms
+
+4
+Stage 4
+Build campaign portfolio
+
+5
+Stage 5
+Apply for marketing roles
+
+Skills You'll Develop
+Essential skills for success in your chosen career path
+
+Google Ads
+SEO
+Social Media
+Analytics
+Content Marketing
+
+Below thing is not finalized what next but it's future we want to first achive above things 
+
+What Happens Next?
+Personalized Dashboard
+Access your career dashboard with progress tracking and resources
+
+Curated Learning Resources
+Get AI-selected courses, tutorials, and certifications
+
+AI Mentor Support
+Chat with your AI career mentor for ongoing guidance
+
+Progress Tracking
+Monitor your learning progress and celebrate milestones
+
+
+this is over all journey  don't
+	 

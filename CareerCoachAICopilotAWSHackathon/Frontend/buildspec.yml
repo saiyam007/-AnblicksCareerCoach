@@ -1,0 +1,40 @@
+version: 0.2
+
+phases:
+  install:
+    
+    commands:
+      - echo Installing dependencies...
+      - apt-get update -y
+      - apt-get install -y unzip
+
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws --version
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 689960076039.dkr.ecr.us-east-1.amazonaws.com
+
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Building the Docker image...
+      - pwd && ls
+      - cd Frontend
+      - pwd && ls
+      - docker build -t careerai-frontend:latest .
+      - docker tag careerai-frontend:latest 689960076039.dkr.ecr.us-east-1.amazonaws.com/careerai-frontend:latest
+
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker image...
+      - docker push 689960076039.dkr.ecr.us-east-1.amazonaws.com/careerai-frontend:latest
+      - echo Writing image definitions file...
+      - printf '[{"name":"careerai-frontend","imageUri":"689960076039.dkr.ecr.us-east-1.amazonaws.com/careerai-frontend:latest"}]' > imagedefinitions.json
+      - echo "Listing current directory:"
+      - ls -R
+
+artifacts:
+  files:
+    - Frontend/imagedefinitions.json
+  discard-paths: yes

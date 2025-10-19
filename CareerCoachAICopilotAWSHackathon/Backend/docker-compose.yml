@@ -1,0 +1,41 @@
+# ============================================================================
+# Docker Compose for Career Coach AI CoPilot Backend - Local Development
+# ============================================================================
+
+version: '3.8'
+
+services:
+  backend:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - ENVIRONMENT=development
+      - AWS_REGION=us-east-2
+      - BEDROCK_REGION=us-east-2
+      - DYNAMODB_REGION=us-east-1
+      - DRY_RUN=false
+      # Add your AWS credentials here for local testing
+      # - AWS_ACCESS_KEY_ID=your_key_here
+      # - AWS_SECRET_ACCESS_KEY=your_secret_here
+    volumes:
+      # Mount source code for development (hot reload)
+      - ./src:/app/src
+    depends_on:
+      - dynamodb-local
+    networks:
+      - career-coach-network
+
+  dynamodb-local:
+    image: amazon/dynamodb-local:latest
+    ports:
+      - "8001:8000"
+    command: ["-jar", "DynamoDBLocal.jar", "-sharedDb", "-inMemory"]
+    environment:
+      - DYNAMODB_ENDPOINT_URL=http://localhost:8001
+    networks:
+      - career-coach-network
+
+networks:
+  career-coach-network:
+    driver: bridge
