@@ -65,83 +65,6 @@ Career Coach AI CoPilot is a production-ready FastAPI backend that provides AI-p
 - **Application Load Balancer**: For production traffic routing
 - **CloudWatch**: Logging and monitoring
 
-## 🚀 Quick Start
-
-### 1. Clone and Setup
-```bash
-git clone <repository-url>
-cd Backend
-
-# Copy environment template
-cp env-template.txt .env
-
-# Edit .env with your configuration
-nano .env
-```
-
-### 2. Local Development
-```bash
-# Start local services (DynamoDB + Backend)
-docker-compose up -d
-
-# Verify services
-curl http://localhost:8000/health
-
-# View API documentation
-open http://localhost:8000/docs
-```
-
-### 3. Production Deployment
-```bash
-# Build and push Docker image
-docker build -t career-coach-backend .
-docker tag career-coach-backend:latest <ecr-repo-uri>:latest
-docker push <ecr-repo-uri>:latest
-
-# Deploy to ECS
-aws ecs update-service --cluster career-coach-cluster \
-  --service career-coach-backend-service --force-new-deployment
-```
-
-## 🔧 Configuration
-
-### Environment Variables
-
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `ENVIRONMENT` | Deployment environment | `production` |
-| `AWS_REGION` | AWS region for services | `us-east-1` |
-| `DYNAMODB_TABLE_NAME` | Main users table | `Users` |
-| `DYNAMODB_DATA_TABLE_NAME` | Career data table | `career-coach-data` |
-| `BEDROCK_MODEL_ID` | Bedrock model ARN | `arn:aws:bedrock:...` |
-| `GOOGLE_CLIENT_ID` | Google OAuth client ID | `your-client-id` |
-| `SECRET_KEY` | JWT secret key | `your-secret-key` |
-
-### Database Schema
-
-#### Users Table
-```json
-{
-  "email": "user@example.com",
-  "recordId": "PROFILE#LATEST",
-  "journey_stage": "ROADMAP_GENERATED",
-  "profile_data": { /* user profile */ },
-  "created_at": "2025-01-01T00:00:00Z"
-}
-```
-
-#### Career Coach Data Table
-```json
-{
-  "id": "roadmap-uuid",
-  "u_id": "user@example.com",
-  "status": "DETAILED_ROADMAP_COMPLETED",
-  "questions": "[{ /* generated questions */ }]",
-  "roadmap": "{ /* career paths */ }",
-  "detailedRoadmap": "{ /* detailed roadmap */ }"
-}
-```
-
 ## 📚 API Documentation
 
 ### Authentication Flow
@@ -232,89 +155,6 @@ Authorization: Bearer <access_token>
 - **Detailed Roadmap**: 30-45 seconds (always fresh)
 - **Cost Savings**: 95-98% reduction for cached endpoints
 
-## 🐳 Docker Deployment
-
-### Local Development
-```bash
-# Start all services
-docker-compose up -d
-
-# Check logs
-docker-compose logs -f backend
-
-# Stop services
-docker-compose down
-```
-
-### Production Build
-```bash
-# Build optimized image
-docker build -t career-coach-backend:prod .
-
-# Run with production settings
-docker run -d \
-  --name career-coach-backend \
-  -p 8000:8000 \
-  -e ENVIRONMENT=production \
-  career-coach-backend:prod
-```
-
-## ☁️ AWS ECS Deployment
-
-### Task Definition
-```json
-{
-  "family": "career-coach-backend",
-  "networkMode": "awsvpc",
-  "requiresCompatibilities": ["FARGATE"],
-  "cpu": "512",
-  "memory": "1024",
-  "executionRoleArn": "arn:aws:iam::account:role/ecsTaskExecutionRole",
-  "containerDefinitions": [
-    {
-      "name": "backend",
-      "image": "account.dkr.ecr.region.amazonaws.com/career-coach-backend:latest",
-      "portMappings": [{"containerPort": 8000}],
-      "environment": [
-        {"name": "ENVIRONMENT", "value": "production"},
-        {"name": "AWS_REGION", "value": "us-east-1"}
-      ],
-      "healthCheck": {
-        "command": ["CMD-SHELL", "curl -f http://localhost:8000/health || exit 1"],
-        "interval": 30,
-        "timeout": 5,
-        "retries": 3
-      }
-    }
-  ]
-}
-```
-
-### Auto Scaling Configuration
-```bash
-# Create auto scaling target
-aws application-autoscaling register-scalable-target \
-  --service-namespace ecs \
-  --resource-id service/career-coach-cluster/career-coach-backend-service \
-  --scalable-dimension ecs:service:DesiredCount \
-  --min-capacity 2 \
-  --max-capacity 10
-
-# Create scaling policy
-aws application-autoscaling put-scaling-policy \
-  --service-namespace ecs \
-  --resource-id service/career-coach-cluster/career-coach-backend-service \
-  --scalable-dimension ecs:service:DesiredCount \
-  --policy-name career-coach-backend-cpu-scaling \
-  --policy-type TargetTrackingScaling \
-  --target-tracking-scaling-policy-configuration '{
-    "TargetValue": 70.0,
-    "PredefinedMetricSpecification": {
-      "PredefinedMetricType": "ECSServiceAverageCPUUtilization"
-    }
-  }'
-```
-
 ## 🔒 Security
 
 ### Authentication & Authorization
@@ -365,21 +205,6 @@ curl https://your-domain.com/health/detailed
 - **DynamoDB Read/Write**: Monitor throttling
 - **Bedrock API Calls**: Track usage and costs
 
-### Logging Strategy
-```python
-# Structured JSON logging
-{
-  "timestamp": "2025-01-01T12:00:00Z",
-  "level": "INFO",
-  "service": "career-coach-backend",
-  "request_id": "uuid",
-  "user_id": "user@example.com",
-  "endpoint": "/v1/ai/profile/questions",
-  "duration_ms": 2500,
-  "status_code": 200
-}
-```
-
 ## 🧪 Testing
 
 ### API Testing
@@ -407,7 +232,6 @@ artillery quick --count 100 --num 10 http://localhost:8000/health
 
 ## 🔧 Development
 
-```
 ## 🏗️ Project Architecture
 
 ```
@@ -562,14 +386,12 @@ BEDROCK_MODEL_ID=anthropic.claude-3-5-sonnet-20240620-v1:0
 BEDROCK_AGENT_ID=FDZUGFEXL2
 BEDROCK_AGENT_ALIAS_ID=YE8F8TRXUI
 ```
-
----
-
 ## 🧪 Running the Server
 go to  base folder 
 
+```bash
 D:\CareerCoachAICopilotAWSHackathon\CareerCoachAICopilotAWSHackathon\Backend
-
+```
 
 ```bash
 uvicorn app.main:app --reload
