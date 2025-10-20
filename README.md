@@ -387,7 +387,7 @@ BEDROCK_AGENT_ID=FDZUGFEXL2
 BEDROCK_AGENT_ALIAS_ID=YE8F8TRXUI
 ```
 ```bash
-uvicorn app.main:app --reload
+uvicorn src.main:app --reload
 ```
 
 ➡️ The API will be available at:  

@@ -61,44 +61,60 @@ Career Coach AI CoPilot is a production-ready FastAPI backend that provides AI-p
 - **Application Load Balancer**: For production traffic routing
 - **CloudWatch**: Logging and monitoring
 
-## 🚀 Quick Start
+## ⚡ Getting Started
 
-### 1. Clone and Setup
+### 1. 🧭 Prerequisites
+
+- Python 3.11+
+- AWS account with Bedrock access
+- Valid IAM credentials
+- DynamoDB or PostgreSQL (depending on your setup)
+
+### 2. 📦 Clone the Repo
+
 ```bash
-git clone <repository-url>
-cd Backend
-
-# Copy environment template
-cp env-template.txt .env
-
-# Edit .env with your configuration
-nano .env
+git clone https://github.com/saiyam007/AnblicksCareerCoach.git
+cd CareerCoachAICopilotAWSHackathon
 ```
 
-### 2. Local Development
+### 3. 🧪 Create and Activate Virtual Environment
+
 ```bash
-# Start local services (DynamoDB + Backend)
-docker-compose up -d
-
-# Verify services
-curl http://localhost:8000/health
-
-# View API documentation
-open http://localhost:8000/docs
+python3 -m venv venv
+source venv/bin/activate   # Linux / Mac
+venv\Scripts\activate      # Windows
 ```
 
-### 3. Production Deployment
-```bash
-# Build and push Docker image
-docker build -t career-coach-backend .
-docker tag career-coach-backend:latest <ecr-repo-uri>:latest
-docker push <ecr-repo-uri>:latest
+### 4. 📥 Install Dependencies
 
-# Deploy to ECS
-aws ecs update-service --cluster career-coach-cluster \
-  --service career-coach-backend-service --force-new-deployment
+```bash
+pip install -r requirements.txt
 ```
 
+### 5. 🧰 Environment Variables
+
+Create a `.env` file (based on `.env-template.txt`):
+
+```
+AWS_ACCESS_KEY_ID=your-key
+AWS_SECRET_ACCESS_KEY=your-secret
+AWS_REGION=us-east-2
+BEDROCK_MODEL_ID=anthropic.claude-3-5-sonnet-20240620-v1:0
+BEDROCK_AGENT_ID=FDZUGFEXL2
+BEDROCK_AGENT_ALIAS_ID=YE8F8TRXUI
+```
+```bash
+uvicorn src.main:app --reload
+```
+
+➡️ The API will be available at:  
+👉 `http://127.0.0.1:8000`
+
+➡️ For Swagger: 
+👉 `http://127.0.0.1:8000/docs`
+
+
+```
 ## 🔧 Configuration
 
 ### Environment Variables
